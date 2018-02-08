@@ -13,7 +13,7 @@ tb.namespace('app.Test').set(
                     url: 'fruits.json',
                     method: 'GET',
                     success: function(pResult) {
-                        that.model.data(JSON.parse(pResult.text).fruits); 
+                        that.model.data(JSON.parse(pResult.text).fruits); // -> { a: 2 }
                     },
                     error: function(pResult) {
                         console.log('an error occured', pResult);
@@ -42,7 +42,8 @@ tb.namespace('app.Test').set(
             var that = this;
             var select = document.createElement('select');
             var button = document.createElement('button');
-            var div = document.createElement('div');
+            var outerdiv = document.createElement('div');
+
 
             $(button).html('add');
 
@@ -61,12 +62,10 @@ tb.namespace('app.Test').set(
             });
 
 
-            select = $(that.target).append(select);
-            select = $(that.target).children('select');
-
-
-            $(that.target).append(button);
-            $(that.target).append(div);
+            $(that.target)
+                .append(select)
+                .append(button)
+                .append(outerdiv);
 
             pData.forEach(function createOptions(pOption) {
 
@@ -77,8 +76,15 @@ tb.namespace('app.Test').set(
             });
 
 
-            $(div).addClass('w3-container w3-padding-32');
+            $(outerdiv).addClass('w3-container w3-padding-32');
 
+            $(button).on('click', function() {
+                var div = $('<div />');
+
+                div.html('<span /><button /><button />');
+
+                $(outerdiv).append(div);
+            })
 
         }
 
