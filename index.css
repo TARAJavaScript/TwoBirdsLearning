@@ -2,6 +2,6 @@ select {
 	display:block;
 }
 
-button {
+body > button {
 	display:block;
 }
