@@ -8,13 +8,12 @@ tb.namespace('app.Test').set(
 
             that.config = pConfig;
 
-            // CRUD model
             that.model = new tb.CRUD({
                 'read': {
                     url: 'fruits.json',
                     method: 'GET',
                     success: function(pResult) {
-                        that.model.data(JSON.parse(pResult.text).fruits); // -> { a: 2 }
+                        that.model.data(JSON.parse(pResult.text).fruits); 
                     },
                     error: function(pResult) {
                         console.log('an error occured', pResult);
@@ -45,11 +44,9 @@ tb.namespace('app.Test').set(
             var button = document.createElement('button');
             var div = document.createElement('div');
 
-
             $(button).html('add');
 
             select.appendChild(document.createElement('option'));
-
 
             pData.sort(function(a, b) {
                 var textA = a.text.toUpperCase();
