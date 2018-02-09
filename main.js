@@ -59,13 +59,17 @@ tb.namespace('app.Test').set(
             });
 
 			// create dropdown entries before rendering
-            pData.forEach(function createOptions(pOption) {
+            pData.forEach(function createOptions(pOption, pIndex) {
                 $('<option>')
                     .attr("value", pOption.value)
                     .html(pOption.text)
                     .appendTo(select);
+				pData[ pIndex ]['quantity'] = 0;
             });
 
+			// store pData in observable
+			that.quantities( pData );
+			
 			// add some general classes
             $(outerdiv)
 				.addClass('w3-container w3-padding-32');
@@ -81,12 +85,14 @@ tb.namespace('app.Test').set(
 			
 				// if select has a selected fruit			
 				if ( select.value ){
-					var line = $( tb.parse(
-							'<div><span>{id} - {short} - {text}</span><button>+</button><button>-</button></div>',
+					var text = $(select).children('[value="' + select.value + '"]').html(),
+						line = $( tb.parse(
+							'<div><span>{id} - {short} - {text}</span><button>+</button><button>-</button><span>{quantity}</span></div>',
 							{ 
 								id: $(select).children('[value="' + select.value + '"]').attr('value'),
 								short: $(select).children('[value="' + select.value + '"]').html()[0],
-								text: $(select).children('[value="' + select.value + '"]').html()
+								text: text, // see above
+								quantity: 0
 							}
 						));
 						
@@ -104,9 +110,19 @@ tb.namespace('app.Test').set(
 							function(){
 								// hint: "this" is the button DOM node!
 								
-								var qty = that.quantities();
-								
-								console.log( this );
+								// set new data
+								that.quantities(
+									that.quantities().map(
+										function( pFruit ){
+											console.log( pFruit );
+											return pFruit.text !== text 
+												? pFruit
+												: tb.extend( pFruit, { quantity: pFruit.quantity++ } );
+										}
+									)
+								);
+
+								console.log( that.quantities() );
 							}
 						)
 				}                
