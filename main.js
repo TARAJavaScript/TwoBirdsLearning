@@ -29,6 +29,8 @@ tb.namespace('app.Test').set(
             // read data
             that.model.read({});
 
+			// create store for quantity
+			this.quantities = tb.observable({});
         }
 
         Test.prototype = {
@@ -39,51 +41,75 @@ tb.namespace('app.Test').set(
         return Test;
 
         function render(pData) {
-            var that = this;
-            var select = document.createElement('select');
-            var button = document.createElement('button');
-            var outerdiv = document.createElement('div');
+            var that = this,
+				select = document.createElement('select'),
+				button = document.createElement('button'),
+				outerdiv = document.createElement('div');
 
-
-            $(button).html('add');
-
+			// add an empty record as preset
             select.appendChild(document.createElement('option'));
 
-            pData.sort(function(a, b) {
-                var textA = a.text.toUpperCase();
-                var textB = b.text.toUpperCase();
+			// button caption
+            $(button)
+				.html('add');
 
-                if (textA < textB) {
-                    return -1;
-                }
-                if (textA > textB) {
-                    return 1;
-                }
+			// sort data for dropdown alphabetically
+            pData.sort(function(a, b) {
+				return a.text.toUpperCase() < b.text.toUpperCase() ? -1 : 1;
             });
 
-
-            $(that.target)
-                .append(select)
-                .append(button)
-                .append(outerdiv);
-
+			// create dropdown entries before rendering
             pData.forEach(function createOptions(pOption) {
-
                 $('<option>')
                     .attr("value", pOption.value)
                     .html(pOption.text)
                     .appendTo(select);
             });
 
+			// add some general classes
+            $(outerdiv)
+				.addClass('w3-container w3-padding-32');
 
-            $(outerdiv).addClass('w3-container w3-padding-32');
+			// append all elements to document.body
+            $(that.target)
+                .append(select)
+                .append(button)
+                .append(outerdiv);
 
-            $(button).on('click', function() {
-                var div = $('<div />');
-
-                div.html('<span /><button /><button />');
-
-                $(outerdiv).append(div);
+			// add selected fruit to list
+            $(button).on('click', function() {	
+			
+				// if select has a selected fruit			
+				if ( select.value ){
+					var line = $( tb.parse(
+							'<div><span>{id} - {short} - {text}</span><button>+</button><button>-</button></div>',
+							{ 
+								id: $(select).children('[value="' + select.value + '"]').attr('value'),
+								short: $(select).children('[value="' + select.value + '"]').html()[0],
+								text: $(select).children('[value="' + select.value + '"]').html()
+							}
+						));
+						
+					// append a line
+					$(outerdiv)
+						.append( line );	
+					
+					// add behaviour to +,- buttons
+					var buttons = Array.from( line.children('button') );	
+					
+					// add '+' functionality
+					$( buttons[0] )
+						.on(
+							'click',
+							function(){
+								// hint: "this" is the button DOM node!
+								
+								var qty = that.quantities();
+								
+								console.log( this );
+							}
+						)
+				}                
             })
 
         }
