@@ -35,9 +35,7 @@ tb.namespace('app.Test').set(
 					)),
 					buttons = $( 'button', line[0] );
 				
-	            console.log(that.target, that, that.data, line, buttons);
-				
-				$(that.target).append( line ); // add line to outerdiv
+	           $(that.target).append( line ); // add line to outerdiv
 				that.target = line[0]; // redefine target as line inside the outerdiv
 				
 	            // add '+' functionality
@@ -64,8 +62,6 @@ tb.namespace('app.Test').set(
 				
 				$( '.quantity', that.target ).html( that.data.quantity.toString() );
 
-				console.log( 'inc', that.data );
-				
 			}
 			
 			function dec(){
@@ -76,8 +72,6 @@ tb.namespace('app.Test').set(
 					$( '.quantity', that.target ).html( that.data.quantity.toString() );
 				}
 
-				console.log( 'dec', that.data, $( '.quantity', that.target ) );
-				
 			}
 			
 		})();
@@ -165,20 +159,19 @@ tb.namespace('app.Test').set(
                 // if select has a selected fruit			
                 if ( select.value ) {
                     var id = $(select).children('[value="' + select.value + '"]').attr('value'),
-                        existingLine = $('[data-id="' + select.value + '"]');
+                        existingLine = $('[data-id="' + select.value + '"]', that.target);
 
                     // append a line if it doesnt exist
                     if ( !existingLine[0] ) {
-	                    var text = $(select).children('[value="' + select.value + '"]').html(),
-	                        data = {
-	                            id: id,
-	                            text: text, // see above
-	                            quantity: 1
-	                        };
+	                    var text = $(select).children('[value="' + select.value + '"]').html();
 
 						new tb(
 							TestLine,
-							data,
+							{
+	                           id: id,
+	                           text: text, // see above
+	                           quantity: 1
+	                       },
 							outerdiv
 						);
 
