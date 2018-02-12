@@ -3,6 +3,85 @@ tb.namespace('app.Test').set(
     (function() {
         var $ = tb.dom;
 
+		var TestLine = (function(){
+			
+			function TestLine( pConfig, pTarget ){
+
+				var that = this;
+				
+				that.target = pTarget;
+				that.data = pConfig;
+				
+				that.render();
+			}
+			
+			TestLine.prototype = {
+	            namespace: 'TestLine',
+				lineTemplate: '<div ><span>{id} - {text}</span><button>+</button><span class="quantity">{quantity}</span>'
+					+ '<button>-</button><span></span></div>',
+	            render: render,
+				inc: inc,
+				dec: dec
+			};
+			
+			return TestLine;
+
+			function render(){
+				
+				var that = this,
+					line = $(tb.parse(
+						that.lineTemplate,
+						that.data
+					)),
+					buttons = $( 'button', line[0] );
+				
+	            console.log(that.target, that, that.data, line, buttons);
+				
+				$(that.target).append( line ); // add line to outerdiv
+				that.target = line[0]; // redefine target as line inside the outerdiv
+				
+	            // add '+' functionality
+	            $(buttons[0])
+	                .on(
+	                    'click',
+	                    inc.bind( that )
+	                );
+	
+	            // add '-' functionality
+	            $(buttons[1])
+	                .on(
+	                    'click',
+	                    dec.bind( that )
+	                );
+	
+			}
+			
+			function inc(){
+
+				var that = this;
+				
+				that.data.quantity++;
+				
+				$( '.quantity', that.target ).html( that.data.quantity.toString() );
+
+				console.log( 'inc', that.data );
+				
+			}
+			
+			function dec(){
+				var that = this;
+
+				if ( that.data.quantity > 0 ){
+					that.data.quantity--;
+					$( '.quantity', that.target ).html( that.data.quantity.toString() );
+				}
+
+				console.log( 'dec', that.data, $( '.quantity', that.target ) );
+				
+			}
+			
+		})();
+
         function Test(pConfig) {
             var that = this;
 
@@ -35,8 +114,7 @@ tb.namespace('app.Test').set(
 
         Test.prototype = {
             namespace: 'app.Test',
-			lineTemplate: '<div ><span>{id} - {short} - {text}</span><button>+</button>{quantity}<button>-</button><span></span></div>',
-            render: render
+			render: render
         };
 
         return Test;
@@ -86,99 +164,28 @@ tb.namespace('app.Test').set(
 
                 // if select has a selected fruit			
                 if ( select.value ) {
-                    var text = $(select).children('[value="' + select.value + '"]').html(),
-                        id = $(select).children('[value="' + select.value + '"]').attr('value'),
-                        short = $(select).children('[value="' + select.value + '"]').html()[0],
-                        data = {
-                            id: id,
-                            short: short,
-                            text: text, // see above
-                            quantity: 1
-                        },
-                        newLine = $(tb.parse(
-                           that.lineTemplate,
-                            data
-                        )),
-                        existingLine = $('[data-id="' + data.id + '"]');
+                    var id = $(select).children('[value="' + select.value + '"]').attr('value'),
+                        existingLine = $('[data-id="' + select.value + '"]');
 
                     // append a line if it doesnt exist
-                    if (!existingLine[0]) {
-	                    newLine.attr('data-id', data.id); // line select criteria
-						addButtonBehaviour( that, newLine );
-                        $(outerdiv).append( newLine );
+                    if ( !existingLine[0] ) {
+	                    var text = $(select).children('[value="' + select.value + '"]').html(),
+	                        data = {
+	                            id: id,
+	                            text: text, // see above
+	                            quantity: 1
+	                        };
+
+						new tb(
+							TestLine,
+							data,
+							outerdiv
+						);
+
                     }
 
                 }
             })
-
-        }
-
-        function addButtonBehaviour( pThat, pLine ) {
-			var buttons = pLine.children();
-			
-            console.log(buttons);
-			
-            // add '+' functionality
-            $(buttons[0])
-                .on(
-                    'click',
-                    function() {
-                        // hint: "this" is the button DOM node!
-                        var q = pThat.quantities();
-						
-						console.log('+');
-                        // set new data
-                        pThat.quantities(
-                            q.map(
-                                function(pFruit) {
-                                    if (pFruit.id === pLine.attr('id')) {
-                                        pFruit.quantity++;
-                                        pLine = $(tb.parse(
-				                            pThat.lineTemplate,
-                                            pFruit
-                                        ));
-										addButtonBehaviour( pLine );
-                                        console.log(pFruit);
-                                    }
-                                    return pFruit;
-                                }
-                            )
-                        );
-
-                        console.log(pThat.quantities());
-                    }
-                );
-
-            // add '-' functionality
-            $(buttons[1])
-                .on(
-                    'click',
-                    function() {
-                        // hint: "this" is the button DOM node!
-                        var q = pThat.quantities();
-
-                        console.log('-');
-                        // set new data
-                        pThat.quantities(
-                            q.map(
-                                function(pFruit) {
-                                    if (pFruit.id === pLine.attr('id') && pFruit.quantity > 0) {
-                                        pFruit.quantity--;
-                                        pLine = $(tb.parse(
-				                            pThat.lineTemplate,
-                                            pFruit
-                                        ));
-										addButtonBehaviour( pLine );
-                                        console.log(pFruit);
-                                    }
-                                    return pFruit;
-                                }
-                            )
-                        );
-
-                        console.log(pThat.quantities());
-                    }
-                );
 
         }
 
