@@ -17,8 +17,7 @@ tb.namespace('app.Test').set(
 			
 			TestLine.prototype = {
 	            namespace: 'TestLine',
-				lineTemplate: '<div ><span>{id} - {text}</span><button>+</button><span class="quantity">{quantity}</span>'
-					+ '<button>-</button><span></span></div>',
+				lineTemplate: '<div ><span>{id} - {text}</span><button>+</button><span class="quantity">{quantity}</span>' + '<button>-</button><span></span></div>',
 	            render: render,
 				inc: inc,
 				dec: dec
@@ -58,7 +57,6 @@ tb.namespace('app.Test').set(
 			}
 			
 			function inc(){
-
 				var that = this;
 				
 				that.data.quantity++;
