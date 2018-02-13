@@ -3,110 +3,110 @@ tb.namespace('app.Test').set(
     (function() {
         var $ = tb.dom;
 
-		var TestLine = (function(){
-			
-			function TestLine( pConfig, pTarget ){
+        var TestLine = (function() {
 
-				var that = this;
-				
-				that.target = pTarget;
-				that.data = pConfig;
-				
-				that.render();
-			}
-			
-			TestLine.prototype = {
-	            namespace: 'TestLine',
-				lineTemplate: '<div ><span>{id} - {text}</span><button>+</button><span class="quantity">{quantity}</span>' + '<button>-</button><span></span></div>',
-	            render: render,
-				inc: inc,
-				dec: dec
-			};
-			
-			return TestLine;
+            function TestLine(pConfig, pTarget) {
 
-			function render(){
-				
-				var that = this,
-					line = $(tb.parse(
-						that.lineTemplate,
-						that.data
-					)),
-					buttons = $( 'button', line[0] );
-				
-	            $(that.target).append( line ); // add line to outerdiv
-				that.target = line[0]; // redefine target as line inside the outerdiv
-				
-				// add "data-id" attribute
-				$(that.target).attr('data-id', that.data.id );
-				
-	            // add '+' functionality
-	            $(buttons[0])
-	                .on(
-	                    'click',
-	                    inc.bind( that )
-	                );
-	
-	            // add '-' functionality
-	            $(buttons[1])
-	                .on(
-	                    'click',
-	                    dec.bind( that )
-	                );
-	
-			}
-			
-			function inc(){
-				var that = this;
-				
-				that.data.quantity++;
-				
-				$( '.quantity', that.target ).html( that.data.quantity.toString() );
+                var that = this;
 
-			}
-			
-			function dec(){
-				var that = this;
+                that.target = pTarget;
+                that.data = pConfig;
 
-				if ( that.data.quantity > 0 ){
-					that.data.quantity--;
-					$( '.quantity', that.target ).html( that.data.quantity.toString() );
-				}
+                that.render();
+            }
 
-			}
-			
-		})();
+            TestLine.prototype = {
+                namespace: 'TestLine',
+                lineTemplate: '<div ><span>{id} - {text}</span><button>+</button><span class="quantity">{quantity}</span>' + '<button>-</button><span></span></div>',
+                render: render,
+                inc: inc,
+                dec: dec
+            };
+
+            return TestLine;
+
+            function render() {
+
+                var that = this,
+                    line = $(tb.parse(
+                        that.lineTemplate,
+                        that.data
+                    )),
+                    buttons = $('button', line[0]);
+
+                $(that.target).append(line); // add line to outerdiv
+                that.target = line[0]; // redefine target as line inside the outerdiv
+
+                // add "data-id" attribute
+                $(that.target).attr('data-id', that.data.id);
+
+                // add '+' functionality
+                $(buttons[0])
+                    .on(
+                        'click',
+                        inc.bind(that)
+                    );
+
+                // add '-' functionality
+                $(buttons[1])
+                    .on(
+                        'click',
+                        dec.bind(that)
+                    );
+
+            }
+
+            function inc() {
+                var that = this;
+
+                that.data.quantity++;
+
+                $('.quantity', that.target).html(that.data.quantity.toString());
+
+            }
+
+            function dec() {
+                var that = this;
+
+                if (that.data.quantity > 0) {
+                    that.data.quantity--;
+                    $('.quantity', that.target).html(that.data.quantity.toString());
+                }
+
+            }
+
+        })();
 
         function Test(pConfig) {
             var that = this;
 
             that.config = pConfig;
 
-			that.handlers = {
-				init: init	
-			};
-			
+            that.handlers = {
+                init: init
+            };
+
         }
 
         Test.prototype = {
             namespace: 'app.Test',
-			'tb.Require': [
-				'app/Test.css'
-			],
-			render: render
+            'tb.Require': [
+                'app/Test.css'
+            ],
+            render: render
         };
 
         return Test;
 
-		function init(){
-			var that = this;
+        function init() {
+            var that = this;
 
-			that.model = new tb.CRUD({
+            that.model = new tb.CRUD({
                 'read': {
                     url: 'fruits.json',
                     method: 'GET',
                     success: function(pResult) {
-						that.model.data(JSON.parse(pResult.text).fruits);							
+                        that.model.data(JSON.parse(pResult.text).fruits);
                     },
                     error: function(pResult) {
                         console.log('an error occured', pResult);
@@ -120,8 +120,8 @@ tb.namespace('app.Test').set(
             // read data
             that.model.read();
 
-		}
-		
+        }
+
         function render(pData) {
             var that = this,
                 select = document.createElement('select'),
@@ -163,23 +163,22 @@ tb.namespace('app.Test').set(
             $(button).on('click', function() {
 
                 // if select has a selected fruit			
-                if ( select.value ) {
+                if (select.value) {
                     var id = $(select).children('[value="' + select.value + '"]').attr('value'),
                         existingLine = $('[data-id="' + select.value + '"]', that.target);
 
                     // append a line if it doesnt exist
-                    if ( !existingLine[0] ) {
-	                    var text = $(select).children('[value="' + select.value + '"]').html();
+                    if (!existingLine[0]) {
+                        var text = $(select).children('[value="' + select.value + '"]').html();
 
-						new tb(
-							TestLine,
-							{
-	                           id: id,
-	                           text: text, // see above
-	                           quantity: 1
-	                       },
-							outerdiv
-						);
+                        new tb(
+                            TestLine, {
+                                id: id,
+                                text: text, // see above
+                                quantity: 1
+                            },
+                            outerdiv
+                        );
 
                     }
 
