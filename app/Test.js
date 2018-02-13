@@ -84,12 +84,31 @@ tb.namespace('app.Test').set(
 
             that.config = pConfig;
 
-            that.model = new tb.CRUD({
+			that.handlers = {
+				init: init	
+			};
+			
+        }
+
+        Test.prototype = {
+            namespace: 'app.Test',
+			'tb.Require': [
+				'app/Test.css'
+			],
+			render: render
+        };
+
+        return Test;
+
+		function init(){
+			var that = this;
+
+			that.model = new tb.CRUD({
                 'read': {
                     url: 'fruits.json',
                     method: 'GET',
                     success: function(pResult) {
-                        that.model.data(JSON.parse(pResult.text).fruits); // -> { a: 2 }
+						that.model.data(JSON.parse(pResult.text).fruits);							
                     },
                     error: function(pResult) {
                         console.log('an error occured', pResult);
@@ -98,24 +117,13 @@ tb.namespace('app.Test').set(
             });
 
             // when data has changed, render
-            that.model.data.observe(function modelDataChanged(pData) {
-                that.render(pData);
-            });
+            that.model.data.observe(render.bind(that));
 
             // read data
-            that.model.read({});
+            that.model.read();
 
-            // create store for quantity
-            this.quantities = tb.observable({});
-        }
-
-        Test.prototype = {
-            namespace: 'app.Test',
-			render: render
-        };
-
-        return Test;
-
+		}
+		
         function render(pData) {
             var that = this,
                 select = document.createElement('select'),
@@ -142,9 +150,6 @@ tb.namespace('app.Test').set(
                     .appendTo(select);
                 pData[pIndex]['quantity'] = 0;
             });
-
-            // store pData in observable
-            that.quantities(pData);
 
             // add some general classes
             $(outerdiv)
@@ -187,10 +192,4 @@ tb.namespace('app.Test').set(
 
     })()
 
-);
-
-// CONSTRUCT
-new tb(
-    app.Test, {},
-    document.body
 );
