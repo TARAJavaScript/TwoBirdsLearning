@@ -1,0 +1,213 @@
+body,
+html {
+    height: 100%;
+    background-color: #605f5c;
+}
+
+/* Überschriften / Schriften */
+
+h1 {
+    font-size: 36px
+}
+
+h2 {
+    font-size: 30px
+}
+
+h3 {
+    font-size: 24px
+}
+
+h4 {
+    font-size: 20px
+}
+
+h5 {
+    font-size: 18px
+}
+
+h6 {
+    font-size: 16px
+}
+
+p {
+    font-size: 14px
+}
+
+/* Hintergrund */
+
+.bgimg {
+    background-image: url('../app/body.jpg');
+    min-height: 100%;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.centerlay {
+    padding-top: 200px;
+    padding-left: 10px;
+    padding-right: 10px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+@media screen and (max-width: 1280px) {
+    .centerlay {
+        padding-top: 150px;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .centerlay {
+        padding-top: 120px;
+    }
+}
+
+/* Formulardesign */
+
+.bgbannerimg {
+    background-image: url('../images/fenstergrau_komplett.jpg');
+    min-height: 50px;
+    background-position: center center;
+    border-radius: 4px 4px 0px 0px;
+    -moz-border-radius: 4px 4px 0px 0px;
+    -webkit-border-radius: 4px 4px 0px 0px;
+}
+
+.formall {
+    background: #a7aeb8;
+    -webkit-box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.7);
+    -moz-box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.7);
+    box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.7);
+    border-left: 2px solid #abb2bc;
+    border-right: 2px solid #abb2bc;
+    border-bottom: 2px solid #abb2bc;
+    border-radius: 5px 5px 5px 5px;
+    -moz-border-radius: 5px 5px 5px 5px;
+    -webkit-border-radius: 5px 5px 5px 5px;
+    max-width: 600px;
+}
+
+.formin {
+    background: #f6f8f9;
+    /* Old browsers */
+    background: -moz-linear-gradient(-45deg, #f6f8f9 0%, #ccd2d7 100%);
+    /* FF3.6-15 */
+    background: -webkit-linear-gradient(-45deg, #f6f8f9 0%, #ccd2d7 100%);
+    /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(135deg, #f6f8f9 0%, #ccd2d7 100%);
+    /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6f8f9', endColorstr='#ccd2d7', GradientType=1);
+    /* IE6-9 fallback on horizontal gradient */
+    border: 4px double #777777;
+    outline: #abb2bc solid 1px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* B U T T O N S */
+
+/* Modal-öffnen-Button */
+
+.modalbut {
+    background: rgba(155, 170, 188, 1);
+    background: -moz-linear-gradient(top, rgba(216, 222, 230, 1) 0%, rgba(155, 170, 188, 1) 100%);
+    background: -webkit-linear-gradient(top, rgba(216, 222, 230, 1) 0%, rgba(155, 170, 188, 1) 100%);
+    background: -o-linear-gradient(top, rgba(216, 222, 230, 1) 0%, rgba(155, 170, 188, 1) 100%);
+    background: -ms-linear-gradient(top, rgba(216, 222, 230, 1) 0%, rgba(155, 170, 188, 1) 100%);
+    background: linear-gradient(to bottom, rgba(216, 222, 230, 1) 0%, rgba(155, 170, 188, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d8dee6', endColorstr='#9baabc', GradientType=0);
+    color: #111111;
+}
+
+.modalbut:hover {
+    background: rgba(216, 222, 230, 1);
+    background: -moz-linear-gradient(top, rgba(155, 170, 188, 1) 0%, rgba(216, 222, 230, 1) 100%);
+    background: -webkit-linear-gradient(top, rgba(155, 170, 188, 1) 0%, rgba(216, 222, 230, 1) 100%);
+    background: -o-linear-gradient(top, rgba(155, 170, 188, 1) 0%, rgba(216, 222, 230, 1) 100%);
+    background: -ms-linear-gradient(top, rgba(155, 170, 188, 1) 0%, rgba(216, 222, 230, 1) 100%);
+    background: linear-gradient(to bottom, rgba(155, 170, 188, 1) 0%, rgba(216, 222, 230, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9baabc', endColorstr='#d8dee6', GradientType=0);
+    color: #111111;
+}
+
+/* Formular-Aktions-Button */
+
+.formactbut {
+    background: rgba(0, 145, 204, 1);
+    background: -moz-linear-gradient(top, rgba(0, 145, 204, 1) 0%, rgba(0, 107, 181, 1) 100%);
+    background: -webkit-linear-gradient(top, rgba(0, 145, 204, 1) 0%, rgba(0, 107, 181, 1) 100%);
+    background: -o-linear-gradient(top, rgba(0, 145, 204, 1) 0%, rgba(0, 107, 181, 1) 100%);
+    background: -ms-linear-gradient(top, rgba(0, 145, 204, 1) 0%, rgba(0, 107, 181, 1) 100%);
+    background: linear-gradient(to bottom, rgba(0, 145, 204, 1) 0%, rgba(0, 107, 181, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0091cc', endColorstr='#006bb5', GradientType=0);
+    color: #ffffff;
+}
+
+.formactbut:hover {
+    background: rgba(0, 107, 181, 1);
+    background: -moz-linear-gradient(top, rgba(0, 107, 181, 1) 0%, rgba(0, 145, 204, 1) 100%);
+    background: -webkit-linear-gradient(top, rgba(0, 107, 181, 1) 0%, rgba(0, 145, 204, 1) 100%);
+    background: -o-linear-gradient(top, rgba(0, 107, 181, 1) 0%, rgba(0, 145, 204, 1) 100%);
+    background: -ms-linear-gradient(top, rgba(0, 107, 181, 1) 0%, rgba(0, 145, 204, 1) 100%);
+    background: linear-gradient(to bottom, rgba(0, 107, 181, 1) 0%, rgba(0, 145, 204, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#006bb5', endColorstr='#0091cc', GradientType=0);
+    color: #ffffff;
+}
+
+/* Modal schließen */
+
+.closebut {
+    border: 2px solid #000000;
+    border-radius: 20px 20px 20px 20px;
+    -moz-border-radius: 20px 20px 20px 20px;
+    -webkit-border-radius: 20px 20px 20px 20px;
+    display: inline-block;
+    padding: 1px 4px 4px 4px;
+    margin: 10px;
+    vertical-align: middle;
+    overflow: hidden;
+    text-decoration: none;
+    font-size: 20px;
+    color: #000000;
+    background-color: inherit;
+    text-align: center;
+    line-height: 20px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.closebut:hover {
+    border: 2px solid #ffffff;
+    color: #ffffff;
+    background-color: #222222;
+    -webkit-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.4);
+    box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.4);
+}
+
+/* Formularbuttons - Basis */
+
+.formbutton {
+    background-color: #777777;
+    color: #ffffff;
+    border: none;
+    padding: 7px 20px 7px 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 0px 5px 0px 0px;
+    cursor: pointer;
+    border-radius: 5px 5px 5px 5px;
+    -moz-border-radius: 5px 5px 5px 5px;
+    -webkit-border-radius: 5px 5px 5px 5px;
+    -webkit-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.4);
+    box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.4);
+}
