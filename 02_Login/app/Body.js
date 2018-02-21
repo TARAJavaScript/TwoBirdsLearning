@@ -13,7 +13,6 @@ tb.namespace('app.Body').set(
         }
 
         Body.prototype = {
-            namespace: 'app.Body',
             render: render
         }
 

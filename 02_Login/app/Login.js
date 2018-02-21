@@ -3,33 +3,63 @@ tb.namespace('app.Login').set(
     (function () {
         var $ = tb.dom;
 
+        /*
+        define CLASS
+        */
         function Login() {
             var that = this;
 
+            // create the model to post login data
+            that.model = new tb.CRUD({
+                'update': {
+                    url: '/login',
+                    method: 'POST',
+                    success: function (pRequest) { //success is HTTP 200 - 399
+                        console.log('success', pRequest);
+
+                        loginSuccess(JSON.parse(pRequest.text));
+                    },
+                    error: function (pRequest) { //success is HTTP 400 - 599
+                        loginError(JSON.parse(pRequest.text));
+                    },
+                }
+            });
+
+            // run init when requirements (see below) have loaded
             that.handlers = {
-                init: init
+                init: init,
+                sendCredentials: sendCredentials // now sendCredentials also is an event handler, as well as a direct method (see below)
             }
 
         }
 
+        /*
+        class PROTOTYPE
+        */
         Login.prototype = {
 
-            namespace: 'app.Login',
-
+            // run init() after we loaded these files
             'tb.Require': [
                 '/app/Login.css',
                 '/app/Login.html'
             ],
 
-            render: render
+            render: render,
+
+            sendCredentials: sendCredentials
         }
 
+        // return our class, will be put into the variable defined by namespace (that is: window.app.Login)
         return Login;
 
+
+        /* 
+        private functions
+        */
         function init() {
             var that = this;
 
-            that.render();
+            that.render(); // call method directly
 
         }
 
@@ -48,10 +78,43 @@ tb.namespace('app.Login').set(
             $(loginButton).on(
                 'click',
                 function (ev) {
-                    console.log('click', $( 'form.login', that.target).values() );
+                    console.log('loginButton click');
+                    //that.sendCredentials(); // call sendCredentials() method of the instance
+                    that.trigger('sendCredentials'); // send 'sendCredentials event to the instance
                     ev.stopPropagation();
                     ev.preventDefault();
                 });
+
+
+            // tb.dom( that.target.firstChild ).addClass( 'text-center' );
+        }
+
+        function sendCredentials() {
+            var that = this;
+
+            console.log('sendCredentials', tb.extend({}, $('form.login').values()));
+            that.model.update(
+                tb.extend({},
+                    $('form.login').values()
+                )
+            );
+        }
+
+        function loginSuccess(pData) {
+            console.log('loginSuccess', pData);
+
+            document.body.replaceWith(document.createElement('body')); // garbage collect previous content
+
+            new tb(
+                'app.Landing', {
+                    token: 'sdfsdfsdfsdfdsdf'
+                },
+                document.body
+            );
+        }
+
+        function loginError(pData) {
+            console.log('loginError', pData);
         }
 
     })()

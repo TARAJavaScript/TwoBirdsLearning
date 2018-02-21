@@ -1,0 +1,11 @@
+body.app-landing {
+    color: red;
+}
+
+body.app-landing {
+    background-image: url('../app/landing.jpeg');
+    min-height: 100%;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+}
