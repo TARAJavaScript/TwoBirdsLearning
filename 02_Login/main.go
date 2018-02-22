@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 )
@@ -26,6 +27,13 @@ func customHandler(w http.ResponseWriter, r *http.Request) {
 
 func loginHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("login call")
+
+	r.ParseForm()
+
+	for k, v := range r.Form {
+		fmt.Println("key: ", k, ",value: ", v[0])
+	}
+
 	theJSON := []byte(`{"Response":{"Status":"success","StatusCode":200,"Failed":false,"Message":"success"}}`)
 
 	w.Header().Set("Content-Type", "application/json")
