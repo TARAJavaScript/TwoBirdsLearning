@@ -10,7 +10,7 @@ const theRoute = "/"
 const theURL = "localhost:8080"
 
 func main() {
-
+	log.Println("alive")
 	http.HandleFunc(theRoute, customHandler)
 	panic(http.ListenAndServe(theURL, nil))
 }
