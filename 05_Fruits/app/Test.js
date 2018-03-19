@@ -1,9 +1,9 @@
 tb.namespace('app.Test').set(
 
-    (function() {
+    (function () {
         var $ = tb.dom;
 
-        var TestLine = (function() {
+        var TestLine = (function () {
 
             function TestLine(pConfig, pTarget) {
 
@@ -105,10 +105,12 @@ tb.namespace('app.Test').set(
                 'read': {
                     url: 'fruits.json',
                     method: 'GET',
-                    success: function(pResult) {
+                    success: function (pResult) {
                         that.model.data(JSON.parse(pResult.text).fruits);
+
+                        //put it in a try catch to check if JSON actually parsed the text
                     },
-                    error: function(pResult) {
+                    error: function (pResult) {
                         console.log('an error occured', pResult);
                     }
                 }
@@ -136,7 +138,7 @@ tb.namespace('app.Test').set(
                 .html('add');
 
             // sort data for dropdown alphabetically
-            pData.sort(function(a, b) {
+            pData.sort(function (a, b) {
                 return a.text.toUpperCase() < b.text.toUpperCase() ? -1 : 1;
             });
 
@@ -160,7 +162,7 @@ tb.namespace('app.Test').set(
                 .append(outerdiv);
 
             // add selected fruit to list
-            $(button).on('click', function() {
+            $(button).on('click', function () {
 
                 // if select has a selected fruit			
                 if (select.value) {
